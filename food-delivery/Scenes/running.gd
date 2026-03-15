@@ -14,7 +14,7 @@ func physics_update(_delta: float) -> void:
 	player.velocity = move_dir * player.player_data.move_speed * _delta
 	var collision = player.move_and_collide(player.velocity)
 	if collision:
-		if collision.get_collider() is not Enemy:
+		if collision.get_collider() is not MeleeEnemy:
 			player.velocity = player.velocity.slide(collision.get_normal())
 			player.move_and_collide(collision.get_remainder().slide(collision.get_normal()))
 		

@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://dbk5ick3mst2g" path="res://Scenes/walkingPlayer.tscn" id="1_hyaqp"]
 [ext_resource type="PackedScene" uid="uid://din52vcllobae" path="res://Scenes/Environment.tscn" id="2_gy80t"]
 [ext_resource type="PackedScene" uid="uid://tjurivir6rd1" path="res://Scenes/Floor.tscn" id="2_hgtle"]
-[ext_resource type="PackedScene" uid="uid://t57m5hp6hiyc" path="res://Scenes/Enemies/melee_enemy.tscn" id="4_t2nrt"]
 [ext_resource type="PackedScene" uid="uid://bbws36gt15r2b" path="res://Scenes/DungeonGeneration/dungeon_generator.tscn" id="6_dnt8c"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_yrqe8"]
 
@@ -25,14 +24,6 @@ tile_map_data = PackedByteArray()
 position = Vector2(-1, 78)
 collision_mask = 3
 
-[node name="MeleeEnemy" parent="." unique_id=1635407209 instance=ExtResource("4_t2nrt")]
-position = Vector2(-41, -73)
-move_speed = 1000.0
-
-[node name="MeleeEnemy2" parent="." unique_id=776629237 instance=ExtResource("4_t2nrt")]
-position = Vector2(77, -140)
-move_speed = 1000.0
-
 [node name="LastKnownPos" type="Node2D" parent="." unique_id=373916486]
 
 [node name="ColorRect" type="ColorRect" parent="LastKnownPos" unique_id=807495992]
@@ -46,6 +37,7 @@ color = Color(0.89784056, 0.00064841745, 0.8978915, 1)
 autostart = true
 
 [node name="DungeonGenerator" parent="." unique_id=15140403 instance=ExtResource("6_dnt8c")]
+maxRooms = 6
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=27845309]
 physics_interpolation_mode = 1

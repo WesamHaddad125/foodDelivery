@@ -46,5 +46,4 @@ func _on_sword_body_entered(body: Node2D) -> void:
 		if healthComponent != null && player.is_attacking:
 			# TODO Add raycast to see if player has line of sight
 			var totalDamage = player.currentWeapon.combo_attacks[0].attack_damage * player.player_data.damageMultiplier
-			print(totalDamage)
 			body.health_component.damage(totalDamage)

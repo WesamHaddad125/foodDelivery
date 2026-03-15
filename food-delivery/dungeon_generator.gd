@@ -8,13 +8,13 @@ extends Node
 @onready var room_cameras: TileMapLayer = $"../RoomCameras"
 @onready var walking_player: WalkingPlayer = $"../WalkingPlayer"
 
-var maxRooms := 8
+@export var maxRooms := 8
 var roomsCreated := 0
 var starting_row_idx := 8
 var starting_col_idx := 4
 var finalMap : Array[Array]
 var roomsToCheck : Queue = Queue.new()
-var roomDepth = 5
+@export var roomDepth = 5
 var currDepth = 0
 var chance_to_stop = 0.6
 
@@ -52,7 +52,7 @@ func _ready() -> void:
 				createCamera(spawnPos)
 				
 				var entryRoomPattern : TileMapPattern = floor.tile_set.get_pattern(randi_range(0,1))
-				var terrainDifficultyPattern : TileMapPattern = floor.tile_set.get_pattern(randi_range(2,4))
+				var terrainDifficultyPattern : TileMapPattern = floor.tile_set.get_pattern(randi_range(6,6))
 				
 				floor.set_pattern(spawnPos, entryRoomPattern)
 				house_objects.set_pattern(Vector2i(spawnPos.x + 1, spawnPos.y + 4), terrainDifficultyPattern)
@@ -60,8 +60,9 @@ func _ready() -> void:
 				if finalMap[row][col] == 3:
 					var playerSpawn = floor.map_to_local(Vector2i(spawnPos.x + 10, spawnPos.y + 25))
 					walking_player.global_position = Vector2(playerSpawn.x, playerSpawn.y)
-	for row in rows:
-		print(finalMap[row])
+	#debug generation
+	#for row in rows:
+		#print(finalMap[row])
 
 func generate_dungeon() -> void:
 	roomsCreated = 0
@@ -91,7 +92,6 @@ func isValid(x, y) -> bool:
 		return false
 		
 	var neighbors = countNeighbors(x, y, false)
-	print(neighbors)
 	if neighbors > 2:
 		return false
 		

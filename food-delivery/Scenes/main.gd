@@ -11,7 +11,7 @@ func _ready() -> void:
 	call_deferred("init_houses")
 	
 func init_houses() -> void:
-	game_time_timer.wait_time = world_data.game_time_left
+	game_time_timer.wait_time = world_data.game_time_left_minutes * 60.0
 	game_time_timer.start()
 	for house in environment.get_children():
 		if house is House && !world_data.houses.has(house.name):

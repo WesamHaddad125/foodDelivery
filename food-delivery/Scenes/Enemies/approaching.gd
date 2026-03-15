@@ -1,4 +1,4 @@
-extends EnemyState
+extends MeleeEnemyState
 	
 func physics_update(_delta: float) -> void:
 	enemy.set_interests()

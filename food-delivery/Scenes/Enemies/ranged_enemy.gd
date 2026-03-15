@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name MeleeEnemy
+class_name RangedEnemy
 
 @export var move_speed : float = 3.0
 @export var prediction_time := 0.2 
@@ -21,6 +21,7 @@ class_name MeleeEnemy
 @export var look_ahead = 50.0
 @export var context_resolution = 8
 @export var target : Node2D
+var target2 : Vector2
 
 var  arr_context_map = []
 var arr_interest = []
@@ -34,6 +35,7 @@ var player : WalkingPlayer
 var upgradeNode = preload("res://Scenes/Upgrades/upgradeScene.tscn")
 
 signal final_enemy_killed
+@onready var move_to_pos: ColorRect = $MoveToPos
 
 func _ready() -> void:
 	player = get_tree().root.get_node("InnerHouse/WalkingPlayer")
@@ -50,6 +52,13 @@ func _physics_process(delta: float) -> void:
 		target = player
 	elif !has_line_of_sight():
 		target = player.last_known_pos
+		
+	var direction = (target.global_position - global_position)
+	direction = direction.normalized()
+	
+	var distance_away_from_target = direction * 20.0
+	target2 = distance_away_from_target
+	move_to_pos.global_position = to_local(target2)
 		
 func has_line_of_sight():
 	var collider = line_of_sight.get_collider()
@@ -79,22 +88,26 @@ func resize_context_map() -> void:
 		arr_context_map[i] = Vector2.RIGHT.rotated(angle)	
 		
 func _draw() -> void:
-	#for i in arr_context_map.size():
-		#var start_pos = arr_context_map[i]
-		#var end_pos = chosen_dir * 30
-		#if arr_interest[i] != null && arr_interest[i] > 0.2:
-			#var end = (arr_context_map[i] * 30) * arr_interest[i]
-			#draw_line(start_pos, end, Color(0,1,1,1), 1.0)
-		#if arr_interest[i] != null && arr_interest[i] < 0.0:
-			#end_pos = (arr_context_map[i] * 30) * -arr_interest[i]
-			#draw_line(start_pos, end_pos, Color(1, 0, 0, 1), 1.0)
+	for i in arr_context_map.size():
+		var start_pos = arr_context_map[i]
+		var end_pos = chosen_dir * 30
+		if arr_interest[i] != null && arr_interest[i] > 0.2:
+			var end = (arr_context_map[i] * 30) * arr_interest[i]
+			draw_line(start_pos, end, Color(0,1,1,1), 1.0)
+		if arr_interest[i] != null && arr_interest[i] < 0.0:
+			end_pos = (arr_context_map[i] * 30) * -arr_interest[i]
+			draw_line(start_pos, end_pos, Color(1, 0, 0, 1), 1.0)
 	lod_optimization()
 	
 func set_interests():
-	var direction = (target.global_position - global_position)
-	direction = direction.normalized()
+	var direction1 = (target.global_position - global_position)
+	direction1 = direction1.normalized()
+	
+	var direction2 = (target2 - global_position)
+	direction2 = direction2.normalized()
+	
 	for i in arr_context_map.size():
-		arr_interest[i] = direction.dot(arr_context_map[i])
+		arr_interest[i] = direction1.dot(arr_context_map[i]) + direction2.dot(arr_context_map[i])
 		
 func set_dangers():
 	var space_state = get_world_2d().direct_space_state
@@ -124,7 +137,7 @@ func _enemy_killed() -> void:
 		call_deferred("add_sibling", upgradeNode)
 		
 	var enemies_left = get_parent().get_children().reduce(func (accum, child): return accum + 1 if child is MeleeEnemy || child is RangedEnemy else accum, 0)
-	print(enemies_left)
+	
 	if enemies_left <= 1:
 		final_enemy_killed.emit()
 		final_enemy_killed.disconnect(player._has_killed_final_enemy)

@@ -1,4 +1,4 @@
-extends MeleeEnemyState
+extends RangedEnemyState
 	
 func physics_update(_delta: float) -> void:
 	enemy.set_interests()
@@ -7,8 +7,6 @@ func physics_update(_delta: float) -> void:
 	enemy.queue_redraw()
 	enemy.velocity = enemy.velocity.lerp(enemy.chosen_dir * enemy.max_speed, enemy.steer_force)
 	enemy.move_and_slide()
-	
-	if (enemy.global_position.distance_to(enemy.player.global_position) < 80):
-		enemy.velocity = Vector2.ZERO
-		finished.emit(CIRCLING)
-	
+
+func _on_attack_timer_timeout() -> void:
+	finished.emit(ATTACKING)

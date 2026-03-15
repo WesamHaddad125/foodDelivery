@@ -7,4 +7,6 @@ class_name Player
 @onready var game_time_timer: Timer = $"../GameTimeTimer"
 
 func _process(delta: float) -> void:
-	time_left_label.text = str("%0.2f" % (game_time_timer.time_left / 60.0)," m")
+	var minutes = floor(game_time_timer.time_left / 60.0)
+	var seconds = int(game_time_timer.time_left) % 60
+	time_left_label.text = "%d:%02d" % [minutes, seconds]

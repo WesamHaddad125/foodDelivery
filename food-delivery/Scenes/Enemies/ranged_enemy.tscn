@@ -1,18 +1,13 @@
-[gd_scene format=3 uid="uid://t57m5hp6hiyc"]
+[gd_scene format=3 uid="uid://dx5v286ppjtqv"]
 
-[ext_resource type="Script" uid="uid://qpnua1puvumd" path="res://Scenes/Enemies/melee_enemy.gd" id="1_3bsiw"]
-[ext_resource type="Texture2D" uid="uid://cu33m1iw3yut1" path="res://Assets/Enemies/rat.png" id="1_dtw0f"]
-[ext_resource type="Script" uid="uid://cagm3672ikd13" path="res://Scenes/state_machine.gd" id="2_6p2ka"]
-[ext_resource type="Script" uid="uid://ccpfd7dy5fv6q" path="res://Scenes/Upgrades/upgrade.gd" id="2_qowee"]
-[ext_resource type="Resource" uid="uid://ig48evbf8qgh" path="res://Scenes/Upgrades/damageUp.tres" id="3_1pkvs"]
-[ext_resource type="Resource" uid="uid://cj22h5we4rpim" path="res://Scenes/Upgrades/speedUp.tres" id="4_0qsc7"]
-[ext_resource type="Script" uid="uid://dakrqhqsdy6g4" path="res://Scenes/Enemies/idle.gd" id="4_eyhix"]
-[ext_resource type="Script" uid="uid://cbsmv5od5rlaf" path="res://Scenes/Enemies/seeking.gd" id="4_ytf8r"]
-[ext_resource type="Script" uid="uid://dkol481p507lt" path="res://Scenes/Enemies/circling.gd" id="5_0u8ws"]
-[ext_resource type="PackedScene" uid="uid://dx53jtmcy510w" path="res://Scenes/Enemies/context_map.tscn" id="5_xxn7r"]
-[ext_resource type="Script" uid="uid://8b254jsgkcgd" path="res://Scenes/Enemies/approaching.gd" id="6_ptuny"]
-[ext_resource type="Script" uid="uid://berkqny6fhrmx" path="res://Scenes/Enemies/attacking.gd" id="7_vrdla"]
-[ext_resource type="PackedScene" uid="uid://ck0gbxwnx5l5y" path="res://Scenes/health_component.tscn" id="7_yxfb2"]
+[ext_resource type="Script" uid="uid://dn7hp41q1vbth" path="res://Scenes/Enemies/ranged_enemy.gd" id="1_2felm"]
+[ext_resource type="Script" uid="uid://egifqixb12r6" path="res://Scenes/Enemies/ranged_idle.gd" id="4_0ph2o"]
+[ext_resource type="Script" uid="uid://b0lgxy4kdiatv" path="res://Scenes/Enemies/ranged_seeking.gd" id="5_3oe0o"]
+[ext_resource type="Texture2D" uid="uid://cu33m1iw3yut1" path="res://Assets/Enemies/rat.png" id="5_8yf3v"]
+[ext_resource type="Script" uid="uid://ejgg7w88d5ym" path="res://Scenes/Enemies/ranged_attacking.gd" id="6_2felm"]
+[ext_resource type="Script" uid="uid://cagm3672ikd13" path="res://Scenes/state_machine.gd" id="6_6j4xf"]
+[ext_resource type="PackedScene" uid="uid://dx53jtmcy510w" path="res://Scenes/Enemies/context_map.tscn" id="12_sj7in"]
+[ext_resource type="PackedScene" uid="uid://ck0gbxwnx5l5y" path="res://Scenes/health_component.tscn" id="13_cgl0m"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6p2ka"]
 radius = 12.0415945
@@ -109,45 +104,35 @@ _data = {
 &"attack": SubResource("Animation_eyhix")
 }
 
-[node name="MeleeEnemy" type="CharacterBody2D" unique_id=1635407209 node_paths=PackedStringArray("health_component")]
+[node name="RangedEnemy" type="CharacterBody2D" unique_id=1635407209 node_paths=PackedStringArray("health_component")]
 collision_layer = 2
 collision_mask = 15
-script = ExtResource("1_3bsiw")
-move_speed = 100.0
-max_steer_force = 10.0
-item_drop_chance_percent = 100.0
+script = ExtResource("1_2felm")
 health_component = NodePath("HealthComponent")
-look_ahead = 30.0
-upgrades = Array[ExtResource("2_qowee")]([ExtResource("3_1pkvs"), ExtResource("4_0qsc7")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1718165888]
 shape = SubResource("CircleShape2D_6p2ka")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=992647769]
+modulate = Color(1, 0.30980393, 1, 1)
 texture_filter = 1
 scale = Vector2(0.50110155, 0.50110155)
-texture = ExtResource("1_dtw0f")
+texture = ExtResource("5_8yf3v")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1767067811 node_paths=PackedStringArray("initial_state")]
-script = ExtResource("2_6p2ka")
+script = ExtResource("6_6j4xf")
 initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" unique_id=1057931175]
-script = ExtResource("4_eyhix")
+script = ExtResource("4_0ph2o")
 
 [node name="Seeking" type="Node" parent="StateMachine" unique_id=1105923810]
-script = ExtResource("4_ytf8r")
-
-[node name="Circling" type="Node" parent="StateMachine" unique_id=671520298]
-script = ExtResource("5_0u8ws")
-
-[node name="Approaching" type="Node" parent="StateMachine" unique_id=1065240510]
-script = ExtResource("6_ptuny")
+script = ExtResource("5_3oe0o")
 
 [node name="Attacking" type="Node" parent="StateMachine" unique_id=949382664]
-script = ExtResource("7_vrdla")
+script = ExtResource("6_2felm")
 
-[node name="ContextMap" parent="." unique_id=1486202024 instance=ExtResource("5_xxn7r")]
+[node name="ContextMap" parent="." unique_id=1486202024 instance=ExtResource("12_sj7in")]
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=521167963]
 path_desired_distance = 5.0
@@ -156,12 +141,17 @@ path_postprocessing = 1
 [node name="LineOfSight" type="RayCast2D" parent="." unique_id=780912081]
 collision_mask = 19
 
-[node name="RandomPosTimer" type="Timer" parent="." unique_id=1358471799]
-wait_time = 0.5
-
-[node name="HealthComponent" parent="." unique_id=314632051 instance=ExtResource("7_yxfb2")]
+[node name="HealthComponent" parent="." unique_id=314632051 instance=ExtResource("13_cgl0m")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=142170481]
 libraries/ = SubResource("AnimationLibrary_qowee")
 
-[connection signal="timeout" from="RandomPosTimer" to="StateMachine/Circling" method="_on_random_pos_timer_timeout"]
+[node name="AttackTimer" type="Timer" parent="." unique_id=686624936]
+wait_time = 3.0
+
+[node name="MoveToPos" type="ColorRect" parent="." unique_id=646738965]
+offset_right = 12.0
+offset_bottom = 12.0
+color = Color(0.91188854, 0.49696922, 0.23636627, 1)
+
+[connection signal="timeout" from="AttackTimer" to="StateMachine/Seeking" method="_on_attack_timer_timeout"]

@@ -22,7 +22,7 @@ tile_map_data = PackedByteArray("AAAEAO//AwAAAAAAAQADAN7/AwAAAAAAAQADANf/AwAAAAA
 
 [connection signal="body_entered" from="Environment/HouseEntrance" to="Environment/HouseEntrance" method="_on_body_entered"]
 [connection signal="body_exited" from="Environment/HouseEntrance" to="Environment/HouseEntrance" method="_on_body_exited"]
-[connection signal="body_entered" from="Environment/@Area2D@47283" to="Environment/@Area2D@47283" method="_on_body_entered"]
-[connection signal="body_exited" from="Environment/@Area2D@47283" to="Environment/@Area2D@47283" method="_on_body_exited"]
-[connection signal="body_entered" from="Environment/@Area2D@47284" to="Environment/@Area2D@47284" method="_on_body_entered"]
-[connection signal="body_exited" from="Environment/@Area2D@47284" to="Environment/@Area2D@47284" method="_on_body_exited"]
+[connection signal="body_entered" from="Environment/@Area2D@21667" to="Environment/@Area2D@21667" method="_on_body_entered"]
+[connection signal="body_exited" from="Environment/@Area2D@21667" to="Environment/@Area2D@21667" method="_on_body_exited"]
+[connection signal="body_entered" from="Environment/@Area2D@21668" to="Environment/@Area2D@21668" method="_on_body_entered"]
+[connection signal="body_exited" from="Environment/@Area2D@21668" to="Environment/@Area2D@21668" method="_on_body_exited"]

@@ -12,6 +12,8 @@ class_name WalkingPlayer
 @export var target_converge_selector : TargetConvergeSelector
 @export var health_component : HealthComponent
 
+signal final_enemy_killed
+
 var currentWeapon : Weapon
 var player_data : PlayerData = preload("res://Scenes/Resources/player_data.tres")
 
@@ -47,3 +49,6 @@ func gain_upgrade(upgradeInfo : Upgrade) -> void:
 		"move_speed":
 			player_data.move_speed += upgradeInfo.upgrade_amount
 	ResourceSaver.save(player_data, "user://player_data.tres")
+
+func _has_killed_final_enemy() -> void:
+	print("house cleared")

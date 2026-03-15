@@ -4,7 +4,7 @@ class_name RoomCamera
 @onready var cam: PhantomCamera2D = $PhantomCamera2D
 
 var all_cameras
-var roomEnemies : Enemy
+var roomEnemies : MeleeEnemy
 
 func _ready() -> void:
 	all_cameras = get_parent().get_children()

@@ -1,4 +1,4 @@
-extends EnemyState
+extends MeleeEnemyState
 
 @onready var random_pos_timer: Timer = $"../../RandomPosTimer"
 var interestVectors : Array[float]
