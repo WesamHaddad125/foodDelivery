@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://din52vcllobae"]
+
+[ext_resource type="TileSet" uid="uid://h3kucndl5jlw" path="res://Assets/World/worldTileSet.tres" id="1_ijv5j"]
+
+[node name="TileMapLayer" type="TileMapLayer" unique_id=657613261]
+y_sort_enabled = true
+texture_filter = 1
+tile_set = ExtResource("1_ijv5j")

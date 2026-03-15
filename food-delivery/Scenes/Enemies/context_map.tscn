@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dx53jtmcy510w"]
+
+[ext_resource type="Script" uid="uid://twbemq0vxohq" path="res://Scenes/Enemies/context_map.gd" id="1_a63yg"]
+
+[node name="ContextMap" type="Node2D" unique_id=1486202024]
+script = ExtResource("1_a63yg")
+
+[node name="0" type="RayCast2D" parent="." unique_id=1788457235]
+target_position = Vector2(0, -35)
+collision_mask = 2
+
+[node name="1" type="RayCast2D" parent="." unique_id=1949775753]
+target_position = Vector2(20, -20)
+collision_mask = 2
+
+[node name="2" type="RayCast2D" parent="." unique_id=1973931755]
+target_position = Vector2(35, 0)
+collision_mask = 2
+
+[node name="3" type="RayCast2D" parent="." unique_id=1470911254]
+target_position = Vector2(20, 20)
+collision_mask = 2
+
+[node name="4" type="RayCast2D" parent="." unique_id=1057383501]
+target_position = Vector2(0, 35)
+collision_mask = 2
+
+[node name="5" type="RayCast2D" parent="." unique_id=923657435]
+target_position = Vector2(-20, 20)
+collision_mask = 2
+
+[node name="6" type="RayCast2D" parent="." unique_id=1176302405]
+target_position = Vector2(-35, 0)
+collision_mask = 2
+
+[node name="7" type="RayCast2D" parent="." unique_id=2072542406]
+target_position = Vector2(-20, -20)
+collision_mask = 2

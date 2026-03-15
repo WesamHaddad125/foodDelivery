@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://d0116fbhqkuch"]
+
+[ext_resource type="Texture2D" uid="uid://dphrijrjlb740" path="res://Assets/Player/bobble01.png" id="1_v0iea"]
+[ext_resource type="Script" uid="uid://dbsa8cnsg3s0s" path="res://Scenes/player.gd" id="1_vgqql"]
+[ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="2_6t5aa"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="4_fkybt"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_vgqql"]
+[ext_resource type="Script" uid="uid://cagm3672ikd13" path="res://Scenes/state_machine.gd" id="6_x3wgy"]
+[ext_resource type="Script" uid="uid://dpwycwc3tsg5u" path="res://Scenes/biking.gd" id="7_3smsa"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]
+radius = 9.0
+height = 18.0
+
+[sub_resource type="Resource" id="Resource_x3wgy"]
+script = ExtResource("4_fkybt")
+
+[sub_resource type="LabelSettings" id="LabelSettings_3smsa"]
+font_size = 28
+
+[node name="Player" type="CharacterBody2D" unique_id=2129012275]
+script = ExtResource("1_vgqql")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1614923389]
+visible = false
+shape = SubResource("CapsuleShape2D_v0iea")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1310069261]
+texture_filter = 1
+scale = Vector2(0.49960318, 0.49960318)
+texture = ExtResource("1_v0iea")
+
+[node name="PhantomCamera2D" type="Node2D" parent="." unique_id=858648405]
+script = ExtResource("2_6t5aa")
+zoom = Vector2(2.45, 2.45)
+tween_resource = SubResource("Resource_x3wgy")
+metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=846064002]
+physics_interpolation_mode = 1
+top_level = true
+zoom = Vector2(2.45, 2.45)
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=1186671722]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("4_vgqql")
+metadata/_custom_type_script = "uid://bd046eokvcnu2"
+
+[node name="CenterContainer" type="CenterContainer" parent="Camera2D" unique_id=964728270]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -131.0
+offset_right = 34.0
+offset_bottom = -92.0
+grow_vertical = 2
+
+[node name="TimeLeftLabel" type="Label" parent="Camera2D/CenterContainer" unique_id=717653913]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_3smsa")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StateMachine" type="Node" parent="." unique_id=981526991]
+script = ExtResource("6_x3wgy")
+
+[node name="Biking" type="Node" parent="StateMachine" unique_id=1062602130]
+script = ExtResource("7_3smsa")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=825023800]

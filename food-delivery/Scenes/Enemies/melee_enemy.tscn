@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://t57m5hp6hiyc"]
+
+[ext_resource type="Script" uid="uid://qpnua1puvumd" path="res://Scenes/Enemies/melee_enemy.gd" id="1_3bsiw"]
+[ext_resource type="Texture2D" uid="uid://cu33m1iw3yut1" path="res://Assets/Enemies/rat.png" id="1_dtw0f"]
+[ext_resource type="Script" uid="uid://cagm3672ikd13" path="res://Scenes/state_machine.gd" id="2_6p2ka"]
+[ext_resource type="Script" uid="uid://ccpfd7dy5fv6q" path="res://Scenes/Upgrades/upgrade.gd" id="2_qowee"]
+[ext_resource type="Resource" uid="uid://ig48evbf8qgh" path="res://Scenes/Upgrades/damageUp.tres" id="3_1pkvs"]
+[ext_resource type="Resource" uid="uid://cj22h5we4rpim" path="res://Scenes/Upgrades/speedUp.tres" id="4_0qsc7"]
+[ext_resource type="Script" uid="uid://dakrqhqsdy6g4" path="res://Scenes/Enemies/idle.gd" id="4_eyhix"]
+[ext_resource type="Script" uid="uid://cbsmv5od5rlaf" path="res://Scenes/Enemies/seeking.gd" id="4_ytf8r"]
+[ext_resource type="Script" uid="uid://dkol481p507lt" path="res://Scenes/Enemies/circling.gd" id="5_0u8ws"]
+[ext_resource type="PackedScene" uid="uid://dx53jtmcy510w" path="res://Scenes/Enemies/context_map.tscn" id="5_xxn7r"]
+[ext_resource type="Script" uid="uid://8b254jsgkcgd" path="res://Scenes/Enemies/approaching.gd" id="6_ptuny"]
+[ext_resource type="Script" uid="uid://berkqny6fhrmx" path="res://Scenes/Enemies/attacking.gd" id="7_vrdla"]
+[ext_resource type="PackedScene" uid="uid://ck0gbxwnx5l5y" path="res://Scenes/health_component.tscn" id="7_yxfb2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6p2ka"]
+radius = 12.0415945
+
+[sub_resource type="Animation" id="Animation_qowee"]
+resource_name = "Idle"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.50849295, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -6), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_vrdla"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_eyhix"]
+resource_name = "attack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.43333334, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-7, -1), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.43333334, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -1.2087461, 0.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("StateMachine/Attacking")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"check_if_attack_hit"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qowee"]
+_data = {
+&"Idle": SubResource("Animation_qowee"),
+&"RESET": SubResource("Animation_vrdla"),
+&"attack": SubResource("Animation_eyhix")
+}
+
+[node name="MeleeEnemy" type="CharacterBody2D" unique_id=1635407209 node_paths=PackedStringArray("health_component")]
+collision_layer = 2
+collision_mask = 15
+script = ExtResource("1_3bsiw")
+move_speed = 100.0
+max_steer_force = 10.0
+item_drop_chance_percent = 100.0
+health_component = NodePath("HealthComponent")
+look_ahead = 30.0
+upgrades = Array[ExtResource("2_qowee")]([ExtResource("3_1pkvs"), ExtResource("4_0qsc7")])
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=992647769]
+texture_filter = 1
+scale = Vector2(0.50110155, 0.50110155)
+texture = ExtResource("1_dtw0f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1718165888]
+shape = SubResource("CircleShape2D_6p2ka")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1767067811 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_6p2ka")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=1057931175]
+script = ExtResource("4_eyhix")
+
+[node name="Seeking" type="Node" parent="StateMachine" unique_id=1105923810]
+script = ExtResource("4_ytf8r")
+
+[node name="Circling" type="Node" parent="StateMachine" unique_id=671520298]
+script = ExtResource("5_0u8ws")
+
+[node name="Approaching" type="Node" parent="StateMachine" unique_id=1065240510]
+script = ExtResource("6_ptuny")
+
+[node name="Attacking" type="Node" parent="StateMachine" unique_id=949382664]
+script = ExtResource("7_vrdla")
+
+[node name="ContextMap" parent="." unique_id=1486202024 instance=ExtResource("5_xxn7r")]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=521167963]
+path_desired_distance = 5.0
+path_postprocessing = 1
+
+[node name="LineOfSight" type="RayCast2D" parent="." unique_id=780912081]
+collision_mask = 19
+
+[node name="RandomPosTimer" type="Timer" parent="." unique_id=1358471799]
+wait_time = 0.5
+
+[node name="HealthComponent" parent="." unique_id=314632051 instance=ExtResource("7_yxfb2")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=142170481]
+libraries/ = SubResource("AnimationLibrary_qowee")
+
+[connection signal="timeout" from="RandomPosTimer" to="StateMachine/Circling" method="_on_random_pos_timer_timeout"]

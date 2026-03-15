@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://kxllgf8wr6uj"]
+
+[ext_resource type="Script" uid="uid://d0vrgj1n43xt6" path="res://Scenes/house_entrance.gd" id="1_4u6vl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kfpfh"]
+
+[node name="HouseEntrance" type="Area2D" unique_id=21050379]
+z_index = 2
+script = ExtResource("1_4u6vl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=535858354]
+rotation = 0.42760566
+scale = Vector2(0.99999994, 0.99999994)
+skew = 0.6981317
+shape = SubResource("RectangleShape2D_kfpfh")
+
+[node name="DebugVisual" type="ColorRect" parent="." unique_id=1676189013]
+offset_left = -3.925
+offset_right = 36.075
+offset_bottom = 40.0
+rotation = -0.7853982
+scale = Vector2(0.135, 0.135)
+color = Color(0.38039216, 0.7254902, 0.23529412, 0.3882353)
+
+[node name="EnterVisual" type="Label" parent="." unique_id=1259673045]
+visible = false
+texture_filter = 1
+offset_left = -6.0
+offset_top = -55.0
+offset_right = 34.0
+offset_bottom = -32.0
+theme_override_colors/font_color = Color(0.9779369, 0.97793704, 0.9779369, 1)
+text = "E"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

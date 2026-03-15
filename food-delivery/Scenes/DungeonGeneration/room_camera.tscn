@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cmqf2in1ljerw"]
+
+[ext_resource type="Script" uid="uid://bcwght1l3seko" path="res://Scenes/DungeonGeneration/room_camera.gd" id="1_6glkw"]
+[ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_h3hrx"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="2_6glkw"]
+
+[sub_resource type="Resource" id="Resource_a0t1n"]
+script = ExtResource("2_6glkw")
+
+[node name="RoomCamera" type="Area2D" unique_id=276408062]
+script = ExtResource("1_6glkw")
+
+[node name="PhantomCamera2D" type="Node2D" parent="." unique_id=1526961250]
+script = ExtResource("1_h3hrx")
+zoom = Vector2(1.5, 1.5)
+tween_resource = SubResource("Resource_a0t1n")
+metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1668435584]
+polygon = PackedVector2Array(70, -198, -370, 22, -64, 174, 365, -42)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

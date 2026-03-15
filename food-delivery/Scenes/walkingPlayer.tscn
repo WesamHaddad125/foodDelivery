@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://dbk5ick3mst2g"]
+
+[ext_resource type="Script" uid="uid://cp834k6pk8okg" path="res://Scenes/walking_player.gd" id="1_rft88"]
+[ext_resource type="Texture2D" uid="uid://dphrijrjlb740" path="res://Assets/Player/bobble01.png" id="2_rft88"]
+[ext_resource type="PackedScene" uid="uid://b1ur8pxe1lqke" path="res://Scenes/sword.tscn" id="2_wxrc3"]
+[ext_resource type="Script" uid="uid://cagm3672ikd13" path="res://Scenes/state_machine.gd" id="6_efrjq"]
+[ext_resource type="Script" uid="uid://bpc3o6al4y85o" path="res://Scenes/running.gd" id="8_h64uc"]
+[ext_resource type="Script" uid="uid://cnax1sajf444i" path="res://Scenes/rolling.gd" id="8_h81vf"]
+[ext_resource type="Script" uid="uid://bw31nsoiydng3" path="res://Scenes/attack_1.gd" id="10_2ih8s"]
+[ext_resource type="Script" uid="uid://dnggtid838swp" path="res://Scenes/attack_2.gd" id="11_qjkm5"]
+[ext_resource type="Script" uid="uid://cphvhdsdoq6w6" path="res://Scenes/attack_3.gd" id="12_efrjq"]
+[ext_resource type="PackedScene" uid="uid://dswr7e4u51hm3" path="res://Scenes/target_converge_selector.tscn" id="13_efrjq"]
+[ext_resource type="PackedScene" uid="uid://ck0gbxwnx5l5y" path="res://Scenes/health_component.tscn" id="14_yicch"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]
+radius = 9.0
+height = 18.0
+
+[sub_resource type="Curve2D" id="Curve2D_qjkm5"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, -80, 0, 0, 0, 0, -20, -77, 0, 0, 0, 0, -39, -70, 0, 0, 0, 0, -57, -57, 0, 0, 0, 0, -70, -40, 0, 0, 0, 0, -78, -21, 0, 0, 0, 0, -80, 0, 0, 0, 0, 0, -77, 21, 0, 0, 0, 0, -69, 40, 0, 0, 0, 0, -57, 57, 0, 0, 0, 0, -40, 69, 0, 0, 0, 0, -21, 77, 0, 0, 0, 0, 0, 80, 0, 0, 0, 0, 21, 77, 0, 0, 0, 0, 40, 70, 0, 0, 0, 0, 56, 57, 0, 0, 0, 0, 69, 41, 0, 0, 0, 0, 77, 21, 0, 0, 0, 0, 80, 0, 0, 0, 0, 0, 77, -21, 0, 0, 0, 0, 70, -40, 0, 0, 0, 0, 57, -56, 0, 0, 0, 0, 41, -69, 0, 0, 0, 0, 21, -77, 0, 0, 0, 0, 0, -80)
+}
+point_count = 25
+
+[node name="WalkingPlayer" type="CharacterBody2D" unique_id=2129012275 node_paths=PackedStringArray("target_converge_selector", "health_component")]
+script = ExtResource("1_rft88")
+attack_move_speed = 20.0
+target_converge_selector = NodePath("TargetConvergeSelector")
+health_component = NodePath("HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1614923389]
+shape = SubResource("CapsuleShape2D_v0iea")
+
+[node name="WeaponHolster" type="Node2D" parent="." unique_id=772591715]
+
+[node name="Sword" parent="WeaponHolster" unique_id=768236126 instance=ExtResource("2_wxrc3")]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1310069261]
+texture_filter = 1
+scale = Vector2(0.49960318, 0.49960318)
+texture = ExtResource("2_rft88")
+
+[node name="StateMachine" type="Node" parent="." unique_id=981526991]
+script = ExtResource("6_efrjq")
+
+[node name="Running" type="Node" parent="StateMachine" unique_id=1432404037]
+script = ExtResource("8_h64uc")
+move_speed = 150.0
+
+[node name="Rolling" type="Node" parent="StateMachine" unique_id=219950283]
+script = ExtResource("8_h81vf")
+
+[node name="Attack1" type="Node" parent="StateMachine" unique_id=357194516]
+script = ExtResource("10_2ih8s")
+
+[node name="Attack2" type="Node" parent="StateMachine" unique_id=1961437814]
+script = ExtResource("11_qjkm5")
+
+[node name="Attack3" type="Node" parent="StateMachine" unique_id=785879962]
+script = ExtResource("12_efrjq")
+
+[node name="EnemyCircle" type="Path2D" parent="." unique_id=865790391]
+curve = SubResource("Curve2D_qjkm5")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="EnemyCircle" unique_id=1955454821]
+position = Vector2(68.01187, -42.447277)
+rotation = -2.2462363
+progress = 421.12448
+
+[node name="TargetConvergeSelector" parent="." unique_id=782151135 node_paths=PackedStringArray("targetToConvergeOn") instance=ExtResource("13_efrjq")]
+targetToConvergeOn = NodePath("..")
+
+[node name="HealthComponent" parent="." unique_id=314632051 instance=ExtResource("14_yicch")]
+
+[connection signal="body_entered" from="WeaponHolster/Sword" to="." method="_on_sword_body_entered"]

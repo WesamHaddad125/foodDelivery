@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PlayerData" format=3 uid="uid://de8hjystuyr7t"]
+
+[ext_resource type="Script" uid="uid://cf5t1un2ekgim" path="res://Scenes/Resources/player_data.gd" id="1_luuqk"]
+
+[resource]
+script = ExtResource("1_luuqk")
+damageMultiplier = 3.0
+move_speed = 100.0
+metadata/_custom_type_script = "uid://cf5t1un2ekgim"

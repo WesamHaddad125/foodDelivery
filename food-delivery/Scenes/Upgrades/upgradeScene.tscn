@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://buo4ge0jtapc8"]
+
+[ext_resource type="Script" uid="uid://balu4unctshge" path="res://Scenes/Upgrades/upgrade_node.gd" id="1_uetq5"]
+[ext_resource type="Resource" uid="uid://ig48evbf8qgh" path="res://Scenes/Upgrades/damageUp.tres" id="2_ui7do"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qngy6"]
+radius = 13.038404
+
+[node name="Upgrade" type="Area2D" unique_id=1816544571]
+collision_layer = 32
+script = ExtResource("1_uetq5")
+upgrade = ExtResource("2_ui7do")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=919230836]
+texture_filter = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=733277404]
+shape = SubResource("CircleShape2D_qngy6")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
