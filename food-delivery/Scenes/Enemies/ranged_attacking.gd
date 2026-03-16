@@ -1,10 +1,15 @@
 extends RangedEnemyState
+var projectile = preload("res://Scenes/Enemies/enemy_projectile.tscn")
 
 func enter(previous_state_path: String, data := {}) -> void:
-	enemy.animation_player.play("attack")
 	enemy.velocity = Vector2.ZERO
+	attack()
+	finished.emit(SEEKING)
 	
-func check_if_attack_hit():
-	if (enemy.global_position.distance_to(enemy.player.global_position) < enemy.attack_distance):
-		enemy.player.health_component.damage(enemy.attack_damage)
-	# finished.emit(CIRCLING)
+func attack() -> void:
+	for i in range(3):
+		var projInstance : EnemyProjectile= projectile.instantiate()
+		projInstance.position = enemy.global_position
+		projInstance.direction = enemy.global_position.direction_to(enemy.player.global_position)
+		enemy.add_child(projInstance)
+		await get_tree().create_timer(0.1).timeout

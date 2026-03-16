@@ -4,9 +4,10 @@ extends Node
 @export var columns : int = 8
 
 @onready var floor: TileMapLayer = $"../Floor"
-@onready var house_objects: TileMapLayer = $"../HouseObjects"
+@onready var house_objects: TileMapLayer = $"../YSorted/HouseObjects"
 @onready var room_cameras: TileMapLayer = $"../RoomCameras"
-@onready var walking_player: WalkingPlayer = $"../WalkingPlayer"
+@onready var walls: TileMapLayer = $"../YSorted/Walls"
+@onready var walking_player: WalkingPlayer = $"../YSorted/WalkingPlayer"
 
 @export var maxRooms := 8
 var roomsCreated := 0
@@ -51,9 +52,11 @@ func _ready() -> void:
 				var spawnPos := Vector2i(col * 21, row * 29)
 				createCamera(spawnPos)
 				
-				var entryRoomPattern : TileMapPattern = floor.tile_set.get_pattern(randi_range(0,1))
-				var terrainDifficultyPattern : TileMapPattern = floor.tile_set.get_pattern(randi_range(6,6))
+				var wallPattern : TileMapPattern = floor.tile_set.get_pattern(0)
+				var entryRoomPattern : TileMapPattern = floor.tile_set.get_pattern(randi_range(5,6))
+				var terrainDifficultyPattern : TileMapPattern = floor.tile_set.get_pattern(randi_range(1,4))
 				
+				walls.set_pattern(spawnPos, wallPattern)
 				floor.set_pattern(spawnPos, entryRoomPattern)
 				house_objects.set_pattern(Vector2i(spawnPos.x + 1, spawnPos.y + 4), terrainDifficultyPattern)
 				createDoors(col, row, spawnPos.x, spawnPos.y)
@@ -123,11 +126,12 @@ func createDoors(rowIdx, colIdx, x, y) -> void:
 	if finalMap[colIdx][rowIdx] == 3:
 		var doorPos = Vector2i(x + 10, y + 28) # BOTTOM
 		
+		# Create house exit
 		house_objects.set_cell(doorPos, 3, Vector2i(0, 0), 5)
 		for door in range(2):
 			doorPos.x += door
 			floor.set_cell(doorPos, 2, doorTile, 2)
-			
+			walls.erase_cell(doorPos)
 	for i in range(4):
 		var adjX : int = colIdx + rowDir[i]
 		var adjY : int = rowIdx + colDir[i]
@@ -143,21 +147,25 @@ func createDoors(rowIdx, colIdx, x, y) -> void:
 				for door in range(2):
 					doorPos.y += door
 					floor.set_cell(doorPos, 2, doorTile, 1)
+					walls.erase_cell(doorPos)
 			elif colDir[i] == 1 && rowDir[i] == 0:
 				doorPos = Vector2i(x + 20, y + 15) # RIGHT
 				for door in range(2):
 					doorPos.y += door
 					floor.set_cell(doorPos, 2, doorTile, 1)
+					walls.erase_cell(doorPos)
 			elif colDir[i] == 0 && rowDir[i] == -1:
 				doorPos = Vector2i(x + 10, y) # TOP
 				for door in range(2):
 					doorPos.x += door
 					floor.set_cell(doorPos, 2, doorTile, 1)
+					walls.erase_cell(doorPos)
 			elif colDir[i] == 0 && rowDir[i] == 1:
 				doorPos = Vector2i(x + 10, y + 28) # BOTTOM
 				for door in range(2):
 					doorPos.x += door
 					floor.set_cell(doorPos, 2, doorTile, 1)
+					walls.erase_cell(doorPos)
 
 func createCamera(spawnPos : Vector2i) -> void:
 	var cameraPos : Vector2i = Vector2i(spawnPos.x + 10, spawnPos.y + 14)

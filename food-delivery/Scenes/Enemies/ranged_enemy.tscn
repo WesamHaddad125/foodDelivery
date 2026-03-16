@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://dx5v286ppjtqv"]
 
 [ext_resource type="Script" uid="uid://dn7hp41q1vbth" path="res://Scenes/Enemies/ranged_enemy.gd" id="1_2felm"]
+[ext_resource type="Script" uid="uid://ccpfd7dy5fv6q" path="res://Scenes/Upgrades/upgrade.gd" id="2_ag032"]
+[ext_resource type="Resource" uid="uid://cj22h5we4rpim" path="res://Scenes/Upgrades/speedUp.tres" id="3_d7475"]
 [ext_resource type="Script" uid="uid://egifqixb12r6" path="res://Scenes/Enemies/ranged_idle.gd" id="4_0ph2o"]
+[ext_resource type="Resource" uid="uid://ig48evbf8qgh" path="res://Scenes/Upgrades/damageUp.tres" id="4_57syw"]
 [ext_resource type="Script" uid="uid://b0lgxy4kdiatv" path="res://Scenes/Enemies/ranged_seeking.gd" id="5_3oe0o"]
 [ext_resource type="Texture2D" uid="uid://cu33m1iw3yut1" path="res://Assets/Enemies/rat.png" id="5_8yf3v"]
 [ext_resource type="Script" uid="uid://ejgg7w88d5ym" path="res://Scenes/Enemies/ranged_attacking.gd" id="6_2felm"]
@@ -106,9 +109,11 @@ _data = {
 
 [node name="RangedEnemy" type="CharacterBody2D" unique_id=1635407209 node_paths=PackedStringArray("health_component")]
 collision_layer = 2
-collision_mask = 15
+collision_mask = 31
 script = ExtResource("1_2felm")
 health_component = NodePath("HealthComponent")
+look_ahead = 30.0
+upgrades = Array[ExtResource("2_ag032")]([ExtResource("3_d7475"), ExtResource("4_57syw")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1718165888]
 shape = SubResource("CircleShape2D_6p2ka")
@@ -148,10 +153,5 @@ libraries/ = SubResource("AnimationLibrary_qowee")
 
 [node name="AttackTimer" type="Timer" parent="." unique_id=686624936]
 wait_time = 3.0
-
-[node name="MoveToPos" type="ColorRect" parent="." unique_id=646738965]
-offset_right = 12.0
-offset_bottom = 12.0
-color = Color(0.91188854, 0.49696922, 0.23636627, 1)
 
 [connection signal="timeout" from="AttackTimer" to="StateMachine/Seeking" method="_on_attack_timer_timeout"]

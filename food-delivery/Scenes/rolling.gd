@@ -6,12 +6,15 @@ var move_dir : Vector2
 
 func enter(previous_state_path: String, data := {}) -> void:
 	move_dir = data["move_dir"].normalized()
-	
+	player.is_rolling = true
 	player.reset_tween()
 	player.tween = create_tween()
 	player.tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
 	player.tween.tween_property(player.sprite, "rotation", deg_to_rad(360), roll_time)
 	player.tween.tween_callback(end_roll)
+
+func exit() -> void:
+	player.is_rolling = false
 	
 func physics_update(_delta: float) -> void:
 	player.velocity = move_dir * roll_speed * _delta

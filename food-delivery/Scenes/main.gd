@@ -1,7 +1,7 @@
 extends Node2D
 class_name GameController
 
-@onready var environment: TileMapLayer = $Environment
+@onready var environment: TileMapLayer = $"y-sort-objects/Environment"
 @onready var game_time_timer: Timer = $GameTimeTimer
 
 var world_data : WorldData = preload("res://Scenes/Resources/WorldData.tres")

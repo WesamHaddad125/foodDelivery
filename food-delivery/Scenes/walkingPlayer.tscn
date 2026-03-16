@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cp834k6pk8okg" path="res://Scenes/walking_player.gd" id="1_rft88"]
 [ext_resource type="Texture2D" uid="uid://dphrijrjlb740" path="res://Assets/Player/bobble01.png" id="2_rft88"]
-[ext_resource type="PackedScene" uid="uid://b1ur8pxe1lqke" path="res://Scenes/sword.tscn" id="2_wxrc3"]
+[ext_resource type="PackedScene" uid="uid://dtdx8pk8l1adm" path="res://Scenes/Weapons/boomerang.tscn" id="2_wxrc3"]
 [ext_resource type="Script" uid="uid://cagm3672ikd13" path="res://Scenes/state_machine.gd" id="6_efrjq"]
 [ext_resource type="Script" uid="uid://bpc3o6al4y85o" path="res://Scenes/running.gd" id="8_h64uc"]
 [ext_resource type="Script" uid="uid://cnax1sajf444i" path="res://Scenes/rolling.gd" id="8_h81vf"]
@@ -23,8 +23,8 @@ _data = {
 point_count = 25
 
 [node name="WalkingPlayer" type="CharacterBody2D" unique_id=2129012275 node_paths=PackedStringArray("target_converge_selector", "health_component")]
+y_sort_enabled = true
 script = ExtResource("1_rft88")
-attack_move_speed = 20.0
 target_converge_selector = NodePath("TargetConvergeSelector")
 health_component = NodePath("HealthComponent")
 
@@ -33,7 +33,7 @@ shape = SubResource("CapsuleShape2D_v0iea")
 
 [node name="WeaponHolster" type="Node2D" parent="." unique_id=772591715]
 
-[node name="Sword" parent="WeaponHolster" unique_id=768236126 instance=ExtResource("2_wxrc3")]
+[node name="Boomerang" parent="WeaponHolster" unique_id=768236126 instance=ExtResource("2_wxrc3")]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1310069261]
 texture_filter = 1
@@ -45,7 +45,6 @@ script = ExtResource("6_efrjq")
 
 [node name="Running" type="Node" parent="StateMachine" unique_id=1432404037]
 script = ExtResource("8_h64uc")
-move_speed = 150.0
 
 [node name="Rolling" type="Node" parent="StateMachine" unique_id=219950283]
 script = ExtResource("8_h81vf")
@@ -71,5 +70,3 @@ progress = 421.12448
 targetToConvergeOn = NodePath("..")
 
 [node name="HealthComponent" parent="." unique_id=314632051 instance=ExtResource("14_yicch")]
-
-[connection signal="body_entered" from="WeaponHolster/Sword" to="." method="_on_sword_body_entered"]

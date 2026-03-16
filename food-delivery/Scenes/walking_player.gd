@@ -4,10 +4,9 @@ class_name WalkingPlayer
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var weapon_holster: Node2D = $WeaponHolster
 @onready var enemy_circle: Path2D = $EnemyCircle
-@onready var last_known_pos: Node2D = $"../LastKnownPos"
+@onready var last_known_pos: Node2D = $"../../LastKnownPos"
 @onready var enemy_circle_pos: PathFollow2D = $EnemyCircle/PathFollow2D
 
-@export var attack_move_speed := 2000.0
 @export var attack_damage := 20.0
 @export var target_converge_selector : TargetConvergeSelector
 @export var health_component : HealthComponent
@@ -20,6 +19,7 @@ var player_data : PlayerData = preload("res://Scenes/Resources/player_data.tres"
 var tween
 var lastMoveDir : Vector2 
 var is_attacking := false
+var is_rolling := false
 
 func _ready() -> void:
 	init_player_data()

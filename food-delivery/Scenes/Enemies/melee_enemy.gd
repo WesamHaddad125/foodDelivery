@@ -36,7 +36,7 @@ var upgradeNode = preload("res://Scenes/Upgrades/upgradeScene.tscn")
 signal final_enemy_killed
 
 func _ready() -> void:
-	player = get_tree().root.get_node("InnerHouse/WalkingPlayer")
+	player = get_tree().root.get_node("InnerHouse/YSorted/WalkingPlayer")
 	final_enemy_killed.connect(player._has_killed_final_enemy)
 	target = player
 	resize_context_map()

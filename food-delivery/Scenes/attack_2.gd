@@ -21,7 +21,7 @@ func physics_update(_delta: float) -> void:
 	var move_dir = Input.get_vector("left", "right", "up", "down") 
 	
 	if move_dir != Vector2.ZERO:
-		player.velocity = move_dir * player.attack_move_speed * _delta
+		player.velocity = move_dir * player.currentWeapon.attack_move_speed * _delta
 	player.move_and_collide(player.velocity)
 	
 func handle_input(_event: InputEvent) -> void:
@@ -39,6 +39,12 @@ func combo_ended() -> void:
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if (anim_name == "attack2"):
 		combo_ended()
+		
+func _unhandled_input(event: InputEvent) -> void:
+	var move_dir = Input.get_vector("left", "right", "up", "down") 
+	
+	if event.is_action_pressed("roll") && player.velocity != Vector2.ZERO:
+		finished.emit(ROLLING, {"move_dir": move_dir})
 		
 func _on_sword_body_entered(body: Node2D) -> void:
 	if body.has_node("HealthComponent"):

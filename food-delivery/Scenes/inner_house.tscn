@@ -16,13 +16,19 @@ script = ExtResource("1_bka1m")
 [node name="Floor" parent="." unique_id=657613261 instance=ExtResource("2_hgtle")]
 tile_map_data = PackedByteArray()
 
-[node name="HouseObjects" parent="." unique_id=403885193 instance=ExtResource("2_gy80t")]
-
 [node name="RoomCameras" parent="." unique_id=1023113216 instance=ExtResource("2_gy80t")]
 
-[node name="WalkingPlayer" parent="." unique_id=2129012275 instance=ExtResource("1_hyaqp")]
+[node name="YSorted" type="Node2D" parent="." unique_id=2023015479]
+y_sort_enabled = true
+
+[node name="WalkingPlayer" parent="YSorted" unique_id=2129012275 instance=ExtResource("1_hyaqp")]
 position = Vector2(-1, 78)
 collision_mask = 3
+
+[node name="Walls" parent="YSorted" unique_id=743143276 instance=ExtResource("2_hgtle")]
+tile_map_data = PackedByteArray()
+
+[node name="HouseObjects" parent="YSorted" unique_id=403885193 instance=ExtResource("2_gy80t")]
 
 [node name="LastKnownPos" type="Node2D" parent="." unique_id=373916486]
 

@@ -26,8 +26,14 @@ func physics_update(_delta: float) -> void:
 	
 	# Allow slow movement
 	if move_dir != Vector2.ZERO:
-		player.velocity = move_dir * player.attack_move_speed * _delta
+		player.velocity = move_dir * player.currentWeapon.attack_move_speed * _delta
 	player.move_and_collide(player.velocity)
+	
+func _unhandled_input(event: InputEvent) -> void:
+	var move_dir = Input.get_vector("left", "right", "up", "down") 
+	
+	if event.is_action_pressed("roll") && player.velocity != Vector2.ZERO:
+		finished.emit(ROLLING, {"move_dir": move_dir})
 	
 func combo_ended() -> void:
 	if attackContinued:

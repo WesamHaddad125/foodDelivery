@@ -111,7 +111,7 @@ _data = {
 
 [node name="MeleeEnemy" type="CharacterBody2D" unique_id=1635407209 node_paths=PackedStringArray("health_component")]
 collision_layer = 2
-collision_mask = 15
+collision_mask = 31
 script = ExtResource("1_3bsiw")
 move_speed = 100.0
 max_steer_force = 10.0

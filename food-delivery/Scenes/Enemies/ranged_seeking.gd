@@ -1,5 +1,8 @@
 extends RangedEnemyState
 	
+func enter(previous_state_path: String, data := {}) -> void:
+	enemy.attack_timer.start()
+	
 func physics_update(_delta: float) -> void:
 	enemy.set_interests()
 	enemy.set_dangers()
