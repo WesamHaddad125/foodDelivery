@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://d04pjlgk2mxjm"]
+
+[ext_resource type="Texture2D" uid="uid://cu33m1iw3yut1" path="res://Assets/Enemies/rat.png" id="1_qg2l1"]
+[ext_resource type="Script" uid="uid://bgj0rqf06sw0p" path="res://Scenes/Boss/boss.gd" id="1_u1fj0"]
+[ext_resource type="Script" uid="uid://cagm3672ikd13" path="res://Scenes/state_machine.gd" id="2_emfxe"]
+[ext_resource type="Script" uid="uid://berkqny6fhrmx" path="res://Scenes/Enemies/attacking.gd" id="3_u1fj0"]
+[ext_resource type="Script" uid="uid://slyidvu0guoq" path="res://health_component.gd" id="5_8cuti"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f2ymq"]
+radius = 42.296574
+
+[node name="Boss" type="CharacterBody2D" unique_id=1724574200]
+script = ExtResource("1_u1fj0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2004667160]
+position = Vector2(-2, 0)
+shape = SubResource("CircleShape2D_f2ymq")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1102342997]
+texture_filter = 1
+scale = Vector2(1.516, 1.516)
+texture = ExtResource("1_qg2l1")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1448167150 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_emfxe")
+initial_state = NodePath("")
+
+[node name="Attacking" type="Node" parent="StateMachine" unique_id=2070737913]
+script = ExtResource("3_u1fj0")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=77821743 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("5_8cuti")
+max_health = 300.0
+collision_shape = NodePath("../CollisionShape2D")
+metadata/_custom_type_script = "uid://slyidvu0guoq"
