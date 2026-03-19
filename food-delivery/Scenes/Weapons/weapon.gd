@@ -4,12 +4,12 @@ class_name Weapon
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
-
-
 @export var attack_move_speed := 20.0
 @export var weapon_name := ""
+@export var load_name := ""
 @export var combo_attacks : Array[ComboAttack]
 @export var pitarang : PathFollow2D
+@export var texture : Texture
 var player : WalkingPlayer
 var is_projectile_weapon := false
 

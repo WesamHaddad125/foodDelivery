@@ -26,6 +26,9 @@ func _on_lifetime_timer_timeout() -> void:
 func _on_impact_detector_body_entered(body: Node2D) -> void:
 	if body is WalkingPlayer && !body.is_rolling:
 		body.health_component.damage(damage)
+		
+		#var knockback_dir = (body.global_position - self.global_position).normalized()
+		#body.apply_knockback(knockback_dir, 5.0, 0.12)
 		queue_free()
 		
 func _on_impact_detector_area_entered(area: Area2D) -> void:

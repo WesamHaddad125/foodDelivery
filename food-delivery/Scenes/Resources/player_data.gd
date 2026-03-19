@@ -4,6 +4,9 @@ class_name PlayerData
 @export var damageMultiplier := 1.0
 @export var maxHealth := 100.0
 @export var move_speed := 8000.0
+@export var currWeapon : Resource
+
+var currentHealth := 100.0
 
 # Bike Variables
 @export var start_bike_move_speed := 150.0

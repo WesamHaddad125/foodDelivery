@@ -19,7 +19,7 @@ metadata/_custom_type_script = "uid://cq6lq0jxnf1hx"
 [sub_resource type="Resource" id="Resource_6j4cb"]
 script = ExtResource("2_cox50")
 forward_move_speed = 5.0
-attack_damage = 15.0
+attack_damage = 8.0
 metadata/_custom_type_script = "uid://cq6lq0jxnf1hx"
 
 [sub_resource type="Animation" id="Animation_goa0h"]
@@ -162,8 +162,10 @@ collision_mask = 10
 script = ExtResource("1_y6v1f")
 attack_move_speed = 35.0
 weapon_name = "Pitarang"
+load_name = "boomerang"
 combo_attacks = Array[ExtResource("2_cox50")]([SubResource("Resource_d6wag"), SubResource("Resource_kb2vl"), SubResource("Resource_6j4cb")])
 pitarang = NodePath("Path2D/PathFollow2D")
+texture = ExtResource("3_y6v1f")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1098121585]
 libraries/ = SubResource("AnimationLibrary_d6wag")

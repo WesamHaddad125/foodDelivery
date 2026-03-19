@@ -47,9 +47,13 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		combo_ended()
 		
 func _on_sword_body_entered(body: Node2D) -> void:
-	if body.has_node("HealthComponent"):
+	if body.has_node("HealthComponent") && (body is MeleeEnemy || body is RangedEnemy || body is Boss):
 		var healthComponent : HealthComponent = body.get_node("HealthComponent")
 		if healthComponent != null && player.is_attacking:
 			# TODO Add raycast to see if player has line of sight
 			var totalDamage = player.currentWeapon.combo_attacks[0].attack_damage * player.player_data.damageMultiplier
 			body.health_component.damage(totalDamage)
+			
+			var knockback_dir = (body.global_position - player.global_position).normalized()
+			body.apply_knockback(knockback_dir, 150.0, 0.12)
+			

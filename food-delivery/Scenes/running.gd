@@ -11,7 +11,13 @@ func physics_update(_delta: float) -> void:
 	if player.velocity.length() > 0:
 		player.weapon_holster.rotation = lerp_angle(player.weapon_holster.rotation, target_angle, _delta * 30)
 	
-	player.velocity = move_dir * player.player_data.move_speed * _delta
+	if player.knockback_timer > 0.0:
+		player.velocity = player.knockback
+		player.knockback_timer -= _delta
+		if player.knockback_timer <= 0.0:
+			player.knockback = Vector2.ZERO
+	else:
+		player.velocity = move_dir * player.player_data.move_speed * _delta
 	var collision = player.move_and_collide(player.velocity)
 	if collision:
 		if collision.get_collider() is not MeleeEnemy:

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cp834k6pk8okg" path="res://Scenes/walking_player.gd" id="1_rft88"]
 [ext_resource type="Texture2D" uid="uid://dphrijrjlb740" path="res://Assets/Player/bobble01.png" id="2_rft88"]
-[ext_resource type="PackedScene" uid="uid://dtdx8pk8l1adm" path="res://Scenes/Weapons/boomerang.tscn" id="2_wxrc3"]
 [ext_resource type="Script" uid="uid://cagm3672ikd13" path="res://Scenes/state_machine.gd" id="6_efrjq"]
 [ext_resource type="Script" uid="uid://bpc3o6al4y85o" path="res://Scenes/running.gd" id="8_h64uc"]
 [ext_resource type="Script" uid="uid://cnax1sajf444i" path="res://Scenes/rolling.gd" id="8_h81vf"]
@@ -32,8 +31,6 @@ health_component = NodePath("HealthComponent")
 shape = SubResource("CapsuleShape2D_v0iea")
 
 [node name="WeaponHolster" type="Node2D" parent="." unique_id=772591715]
-
-[node name="Boomerang" parent="WeaponHolster" unique_id=768236126 instance=ExtResource("2_wxrc3")]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1310069261]
 texture_filter = 1

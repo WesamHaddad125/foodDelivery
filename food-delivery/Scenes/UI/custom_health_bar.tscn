@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://4k4os8nfu2e2"]
+
+[ext_resource type="Script" uid="uid://bo78i2pw71thu" path="res://Scenes/UI/custom_health_bar.gd" id="1_swkgf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ehu62"]
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_swkgf"]
+bg_color = Color(1, 0, 0.29411766, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ehu62"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ilohw"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="CustomHealthBar" type="ProgressBar" unique_id=659728131 node_paths=PackedStringArray("progress_bar")]
+offset_left = -8.0
+offset_top = 11.0
+offset_right = 72.0
+offset_bottom = 21.0
+scale = Vector2(0.2, 0.2)
+theme_override_styles/background = SubResource("StyleBoxFlat_ehu62")
+theme_override_styles/fill = SubResource("StyleBoxFlat_swkgf")
+step = 0.001
+show_percentage = false
+script = ExtResource("1_swkgf")
+progress_bar = NodePath("ProgressBar")
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1706922008]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_ehu62")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ilohw")
+show_percentage = false
+
+[node name="ResetVis" type="Timer" parent="." unique_id=569932024]
+one_shot = true
+
+[connection signal="timeout" from="ResetVis" to="." method="_on_reset_vis_timeout"]

@@ -15,6 +15,7 @@ class_name Boss
 @onready var line_of_sight: RayCast2D = $LineOfSight
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var attack_timer: Timer = $AttackTimer
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 # Context Steer v3
 @export var max_speed := 50.0
@@ -35,30 +36,49 @@ var player : WalkingPlayer
 var upgradeNode = preload("res://Scenes/Upgrades/upgradeScene.tscn")
 
 signal final_enemy_killed
+var tween
+
+var knockback : Vector2 = Vector2.ZERO
+var knockback_timer : float = 0.0
+
+# Boss params
+var use_roll_attack := true
+
+@export var roll_time := 3.0
+@export var roll_speed := 400.0
+@export var randPos : PathFollow2D
+
+@onready var ranged_attack_check: Timer = $RangedAttackCheck
+@onready var random_position_timer: Timer = $RandomPositionTimer
+@onready var custom_health_bar: CustomHealthBar = $"../Camera2D/BossHealth"
 
 func _ready() -> void:
-	player = get_tree().root.get_node("InnerHouse/YSorted/WalkingPlayer")
-	final_enemy_killed.connect(player._has_killed_final_enemy)
+	player = get_tree().root.get_node("BossArena/YSorted/WalkingPlayer")
 	target = player
 	resize_context_map()
 	
-	attack_timer.wait_time = randf_range(4.0, 6.0)
-	health_component.died.connect(_enemy_killed)
+	custom_health_bar.max_value = health_component.max_health
+	health_component.health_bar = custom_health_bar
+	health_component.setup_health_bar()
 	
+func reset_tween() -> void: 
+	if tween != null:
+		tween.kill()
+
 func _physics_process(delta: float) -> void:
-	line_of_sight.target_position = to_local(player.global_position) 
-	if (has_line_of_sight()):
-		player.last_known_pos.global_position = player.global_position
-		target = player
-	elif !has_line_of_sight():
-		target = player.last_known_pos
+	pass
+	#if (has_line_of_sight()):
+		#player.last_known_pos.global_position = player.global_position
+		#target = player
+	#elif !has_line_of_sight():
+		#target = player.last_known_pos
 		
-func has_line_of_sight():
-	var collider = line_of_sight.get_collider()
-	if collider is WalkingPlayer:
-		return true
-	else:
-		return false
+#func has_line_of_sight():
+	#var collider = line_of_sight.get_collider()
+	#if collider is WalkingPlayer:
+		#return true
+	#else:
+		#return false
 		
 func lod_optimization():
 	var distance = target.global_position - global_position
@@ -81,15 +101,15 @@ func resize_context_map() -> void:
 		arr_context_map[i] = Vector2.RIGHT.rotated(angle)	
 		
 func _draw() -> void:
-	#for i in arr_context_map.size():
-		#var start_pos = arr_context_map[i]
-		#var end_pos = chosen_dir * 30
-		#if arr_interest[i] != null && arr_interest[i] > 0.2:
-			#var end = (arr_context_map[i] * 30) * arr_interest[i]
-			#draw_line(start_pos, end, Color(0,1,1,1), 1.0)
-		#if arr_interest[i] != null && arr_interest[i] < 0.0:
-			#end_pos = (arr_context_map[i] * 30) * -arr_interest[i]
-			#draw_line(start_pos, end_pos, Color(1, 0, 0, 1), 1.0)
+	for i in arr_context_map.size():
+		var start_pos = arr_context_map[i]
+		var end_pos = chosen_dir * 30
+		if arr_interest[i] != null && arr_interest[i] > 0.2:
+			var end = (arr_context_map[i] * 30) * arr_interest[i]
+			draw_line(start_pos, end, Color(0,1,1,1), 1.0)
+		if arr_interest[i] != null && arr_interest[i] < 0.0:
+			end_pos = (arr_context_map[i] * 30) * -arr_interest[i]
+			draw_line(start_pos, end_pos, Color(1, 0, 0, 1), 1.0)
 	lod_optimization()
 	
 func set_interests():
@@ -97,10 +117,7 @@ func set_interests():
 	direction1 = direction1.normalized()
 	
 	for i in arr_context_map.size():
-		if global_position.distance_to(player.global_position) < 150.0:
-			arr_interest[i] = -direction1.dot(arr_context_map[i])
-		else:
-			arr_interest[i] = direction1.dot(arr_context_map[i])
+		arr_interest[i] = direction1.dot(arr_context_map[i])
 		
 func set_dangers():
 	var space_state = get_world_2d().direct_space_state
@@ -117,23 +134,12 @@ func choose_direction():
 		chosen_dir += arr_context_map[i] * arr_interest[i]
 	chosen_dir = chosen_dir.normalized()
 
-func _enemy_killed() -> void:
-	var convergeIdx = player.target_converge_selector.convergingEntities.find(self)
-	if convergeIdx >= 0:
-		player.target_converge_selector.convergingEntities.remove_at(convergeIdx)
+func _on_boss_roll_detector_body_entered(body: Node2D) -> void:
+	use_roll_attack = true
+
+func _on_boss_roll_detector_body_exited(body: Node2D) -> void:
+	use_roll_attack = false
 	
-	if randf() < item_drop_chance_percent / 100.0:
-		var upgradeDropped : Upgrade = upgrades.pick_random()
-		var upgradeNode : UpgradeNode = upgradeNode.instantiate()
-		upgradeNode.upgrade = upgradeDropped
-		upgradeNode.global_position = self.global_position
-		call_deferred("add_sibling", upgradeNode)
-		
-	var enemies_left = get_parent().get_children().reduce(func (accum, child): return accum + 1 if child is MeleeEnemy || child is RangedEnemy else accum, 0)
-	
-	if enemies_left <= 1:
-		final_enemy_killed.emit()
-		final_enemy_killed.disconnect(player._has_killed_final_enemy)
-		print("final enemy killed")
-	
-	queue_free()
+func apply_knockback(direction: Vector2, force: float, knockback_duration: float) -> void:
+	knockback = direction * force
+	knockback_timer = knockback_duration

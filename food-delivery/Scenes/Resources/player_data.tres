@@ -1,9 +1,11 @@
 [gd_resource type="Resource" script_class="PlayerData" format=3 uid="uid://de8hjystuyr7t"]
 
+[ext_resource type="PackedScene" uid="uid://b1ur8pxe1lqke" path="res://Scenes/Weapons/sword.tscn" id="1_3hugf"]
 [ext_resource type="Script" uid="uid://cf5t1un2ekgim" path="res://Scenes/Resources/player_data.gd" id="1_luuqk"]
 
 [resource]
 script = ExtResource("1_luuqk")
 damageMultiplier = 3.0
 move_speed = 100.0
+currWeapon = ExtResource("1_3hugf")
 metadata/_custom_type_script = "uid://cf5t1un2ekgim"

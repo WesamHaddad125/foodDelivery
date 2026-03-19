@@ -34,6 +34,9 @@ var player : WalkingPlayer
 @export var upgrades : Array[Upgrade]
 var upgradeNode = preload("res://Scenes/Upgrades/upgradeScene.tscn")
 
+var knockback : Vector2 = Vector2.ZERO
+var knockback_timer : float = 0.0
+
 signal final_enemy_killed
 
 func _ready() -> void:
@@ -137,3 +140,7 @@ func _enemy_killed() -> void:
 		print("final enemy killed")
 	
 	queue_free()
+
+func apply_knockback(direction: Vector2, force: float, knockback_duration: float) -> void:
+	knockback = direction * force
+	knockback_timer = knockback_duration

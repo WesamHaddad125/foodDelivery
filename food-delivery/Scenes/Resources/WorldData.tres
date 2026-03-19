@@ -4,3 +4,4 @@
 
 [resource]
 script = ExtResource("1_xbw5b")
+game_time_left_minutes = 5.0

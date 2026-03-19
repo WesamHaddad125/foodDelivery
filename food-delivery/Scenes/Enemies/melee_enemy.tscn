@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://8b254jsgkcgd" path="res://Scenes/Enemies/approaching.gd" id="6_ptuny"]
 [ext_resource type="Script" uid="uid://berkqny6fhrmx" path="res://Scenes/Enemies/attacking.gd" id="7_vrdla"]
 [ext_resource type="PackedScene" uid="uid://ck0gbxwnx5l5y" path="res://Scenes/health_component.tscn" id="7_yxfb2"]
+[ext_resource type="PackedScene" uid="uid://4k4os8nfu2e2" path="res://Scenes/UI/custom_health_bar.tscn" id="14_wynxd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6p2ka"]
 radius = 12.0415945
@@ -159,9 +160,16 @@ collision_mask = 19
 [node name="RandomPosTimer" type="Timer" parent="." unique_id=1358471799]
 wait_time = 0.5
 
-[node name="HealthComponent" parent="." unique_id=314632051 instance=ExtResource("7_yxfb2")]
+[node name="HealthComponent" parent="." unique_id=314632051 node_paths=PackedStringArray("health_bar") instance=ExtResource("7_yxfb2")]
+health_bar = NodePath("../CustomHealthBar")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=142170481]
 libraries/ = SubResource("AnimationLibrary_qowee")
+
+[node name="CustomHealthBar" parent="." unique_id=659728131 instance=ExtResource("14_wynxd")]
+offset_left = -14.0
+offset_top = -21.000002
+offset_right = 130.99998
+offset_bottom = -2.8750038
 
 [connection signal="timeout" from="RandomPosTimer" to="StateMachine/Circling" method="_on_random_pos_timer_timeout"]

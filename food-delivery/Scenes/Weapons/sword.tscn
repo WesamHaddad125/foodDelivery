@@ -311,7 +311,9 @@ collision_layer = 8
 collision_mask = 10
 script = ExtResource("1_x3ol0")
 weapon_name = "Shawarma Blade"
+load_name = "sword"
 combo_attacks = Array[ExtResource("2_2yne2")]([SubResource("Resource_d6wag"), SubResource("Resource_kb2vl"), SubResource("Resource_6j4cb")])
+texture = ExtResource("3_u3c58")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1221499836]
 position = Vector2(24.794445, -14.705561)

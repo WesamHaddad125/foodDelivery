@@ -20,7 +20,13 @@ func physics_update(_delta: float) -> void:
 	enemy.set_dangers()
 	enemy.choose_direction()
 	enemy.queue_redraw()
-	enemy.velocity = enemy.velocity.lerp(enemy.chosen_dir * 60, 0.8)
+	if enemy.knockback_timer > 0.0:
+		enemy.velocity = enemy.knockback
+		enemy.knockback_timer -= _delta
+		if enemy.knockback_timer <= 0.0:
+			enemy.knockback = Vector2.ZERO
+	else:
+		enemy.velocity = enemy.velocity.lerp(enemy.chosen_dir * 60, 0.8)
 	enemy.move_and_slide()
 	
 	if (enemy.global_position.distance_to(enemy.player.global_position) > 120):

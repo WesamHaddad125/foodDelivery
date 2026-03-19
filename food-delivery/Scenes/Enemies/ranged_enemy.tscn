@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cu33m1iw3yut1" path="res://Assets/Enemies/rat.png" id="5_8yf3v"]
 [ext_resource type="Script" uid="uid://ejgg7w88d5ym" path="res://Scenes/Enemies/ranged_attacking.gd" id="6_2felm"]
 [ext_resource type="Script" uid="uid://cagm3672ikd13" path="res://Scenes/state_machine.gd" id="6_6j4xf"]
+[ext_resource type="PackedScene" uid="uid://4k4os8nfu2e2" path="res://Scenes/UI/custom_health_bar.tscn" id="12_d7475"]
 [ext_resource type="PackedScene" uid="uid://dx53jtmcy510w" path="res://Scenes/Enemies/context_map.tscn" id="12_sj7in"]
 [ext_resource type="PackedScene" uid="uid://ck0gbxwnx5l5y" path="res://Scenes/health_component.tscn" id="13_cgl0m"]
 
@@ -146,12 +147,19 @@ path_postprocessing = 1
 [node name="LineOfSight" type="RayCast2D" parent="." unique_id=780912081]
 collision_mask = 19
 
-[node name="HealthComponent" parent="." unique_id=314632051 instance=ExtResource("13_cgl0m")]
+[node name="HealthComponent" parent="." unique_id=314632051 node_paths=PackedStringArray("health_bar") instance=ExtResource("13_cgl0m")]
+health_bar = NodePath("../CustomHealthBar")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=142170481]
 libraries/ = SubResource("AnimationLibrary_qowee")
 
 [node name="AttackTimer" type="Timer" parent="." unique_id=686624936]
 wait_time = 3.0
+
+[node name="CustomHealthBar" parent="." unique_id=659728131 instance=ExtResource("12_d7475")]
+offset_left = -14.0
+offset_top = -21.000002
+offset_right = 130.99998
+offset_bottom = -2.8750038
 
 [connection signal="timeout" from="AttackTimer" to="StateMachine/Seeking" method="_on_attack_timer_timeout"]

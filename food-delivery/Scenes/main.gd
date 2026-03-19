@@ -19,3 +19,12 @@ func init_houses() -> void:
 				"visited": false
 			}
 	ResourceSaver.save(world_data, "user://WorldData.tres")
+
+
+func _on_boss_entrance_body_entered(body: Node2D) -> void:
+	if body is Player:
+		get_tree().change_scene_to_file("res://Scenes/Boss/boss_arena.tscn")
+
+
+func _on_game_time_timer_timeout() -> void:
+	get_tree().change_scene_to_file("res://Scenes/Boss/boss_arena.tscn")

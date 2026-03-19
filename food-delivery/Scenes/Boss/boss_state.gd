@@ -1,7 +1,9 @@
 class_name BossState extends State
 
-const SEEKING = "Seeking"
-const ATTACKING = "Attacking"
+const BOSS_ROLL = "BossRoll"
+const DETECT_PLAYER = "DetectPlayer"
+const AVOID_PLAYER = "AvoidPlayer"
+const BOSS_FIRE = "BossFire"
 
 var enemy : Boss
 

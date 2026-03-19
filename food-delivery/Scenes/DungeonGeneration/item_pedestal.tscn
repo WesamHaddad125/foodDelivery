@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cn38xciccle74"]
+
+[ext_resource type="Texture2D" uid="uid://cq0l157ufvapv" path="res://Assets/World/foodDeliveryTiles.png" id="1_2sjq8"]
+[ext_resource type="Script" uid="uid://cs64jdid5qrwt" path="res://Scenes/DungeonGeneration/item_pedestal.gd" id="1_k6uav"]
+[ext_resource type="PackedScene" uid="uid://dtdx8pk8l1adm" path="res://Scenes/Weapons/boomerang.tscn" id="2_8s524"]
+[ext_resource type="PackedScene" uid="uid://b1ur8pxe1lqke" path="res://Scenes/Weapons/sword.tscn" id="3_7mwgd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k6uav"]
+radius = 20.024984
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yu11s"]
+radius = 67.46851
+
+[sub_resource type="LabelSettings" id="LabelSettings_k6uav"]
+font_size = 9
+
+[node name="ItemPedestal" type="Node2D" unique_id=1530430014]
+script = ExtResource("1_k6uav")
+weaponOptions = Array[Resource]([ExtResource("2_8s524"), ExtResource("3_7mwgd")])
+
+[node name="PickupArea" type="Area2D" parent="." unique_id=1765193682]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea" unique_id=436560126]
+shape = SubResource("CircleShape2D_k6uav")
+
+[node name="ItemTextDisplay" type="Area2D" parent="." unique_id=495981841]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemTextDisplay" unique_id=1775977443]
+shape = SubResource("CircleShape2D_yu11s")
+
+[node name="PedestalSprite" type="Sprite2D" parent="." unique_id=2059469818]
+texture_filter = 1
+texture = ExtResource("1_2sjq8")
+
+[node name="ItemSprite" type="Sprite2D" parent="." unique_id=1405690658]
+texture_filter = 1
+position = Vector2(0, -7.095)
+scale = Vector2(0.2863329, 0.2863329)
+
+[node name="WeaponLabel" type="Label" parent="." unique_id=43672589]
+offset_left = -33.0
+offset_top = -32.0
+offset_right = 34.0
+offset_bottom = -18.0
+label_settings = SubResource("LabelSettings_k6uav")
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="PickupArea" to="." method="_on_pickup_area_body_entered"]
+[connection signal="body_entered" from="ItemTextDisplay" to="." method="_on_item_text_display_body_entered"]
+[connection signal="body_exited" from="ItemTextDisplay" to="." method="_on_item_text_display_body_exited"]

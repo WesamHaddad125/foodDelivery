@@ -1,35 +1,145 @@
 [gd_scene format=3 uid="uid://d04pjlgk2mxjm"]
 
-[ext_resource type="Texture2D" uid="uid://cu33m1iw3yut1" path="res://Assets/Enemies/rat.png" id="1_qg2l1"]
 [ext_resource type="Script" uid="uid://bgj0rqf06sw0p" path="res://Scenes/Boss/boss.gd" id="1_u1fj0"]
+[ext_resource type="Texture2D" uid="uid://dss1agp2eqord" path="res://Assets/Enemies/boss-Sheet.png" id="2_8cuti"]
 [ext_resource type="Script" uid="uid://cagm3672ikd13" path="res://Scenes/state_machine.gd" id="2_emfxe"]
-[ext_resource type="Script" uid="uid://berkqny6fhrmx" path="res://Scenes/Enemies/attacking.gd" id="3_u1fj0"]
+[ext_resource type="Script" uid="uid://bychn8u3om31f" path="res://Scenes/Boss/boss_roll.gd" id="4_8cuti"]
+[ext_resource type="Script" uid="uid://bbvl6x4r655hk" path="res://Scenes/Boss/detect_player.gd" id="4_bmtw7"]
 [ext_resource type="Script" uid="uid://slyidvu0guoq" path="res://health_component.gd" id="5_8cuti"]
+[ext_resource type="Script" uid="uid://bneiytfrdf2nk" path="res://Scenes/Boss/avoid_player.gd" id="5_jru1c"]
+[ext_resource type="Script" uid="uid://cwwbjt75vlw88" path="res://Scenes/Boss/boss_fire.gd" id="7_l8t4p"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f2ymq"]
 radius = 42.296574
 
-[node name="Boss" type="CharacterBody2D" unique_id=1724574200]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bmtw7"]
+atlas = ExtResource("2_8cuti")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jru1c"]
+atlas = ExtResource("2_8cuti")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8t4p"]
+atlas = ExtResource("2_8cuti")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8celw"]
+atlas = ExtResource("2_8cuti")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0tv5u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bmtw7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jru1c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8t4p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8celw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_8cuti"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_bmtw7"]
+resource_name = "roll"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jru1c"]
+_data = {
+&"RESET": SubResource("Animation_8cuti"),
+&"roll": SubResource("Animation_bmtw7")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l8t4p"]
+radius = 231.0
+
+[node name="Boss" type="CharacterBody2D" unique_id=1724574200 node_paths=PackedStringArray("health_component")]
+collision_layer = 2
+collision_mask = 15
 script = ExtResource("1_u1fj0")
+health_component = NodePath("HealthComponent")
+look_ahead = 80.0
+roll_time = 0.3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2004667160]
-position = Vector2(-2, 0)
+position = Vector2(-2, -8)
 shape = SubResource("CircleShape2D_f2ymq")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1102342997]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1640560584]
 texture_filter = 1
-scale = Vector2(1.516, 1.516)
-texture = ExtResource("1_qg2l1")
+sprite_frames = SubResource("SpriteFrames_0tv5u")
 
-[node name="StateMachine" type="Node" parent="." unique_id=1448167150 node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1448167150]
 script = ExtResource("2_emfxe")
-initial_state = NodePath("")
 
-[node name="Attacking" type="Node" parent="StateMachine" unique_id=2070737913]
-script = ExtResource("3_u1fj0")
+[node name="DetectPlayer" type="Node" parent="StateMachine" unique_id=574832092]
+script = ExtResource("4_bmtw7")
+
+[node name="AvoidPlayer" type="Node" parent="StateMachine" unique_id=458268819]
+script = ExtResource("5_jru1c")
+
+[node name="BossRoll" type="Node" parent="StateMachine" unique_id=2070737913]
+script = ExtResource("4_8cuti")
+
+[node name="BossFire" type="Node" parent="StateMachine" unique_id=1530580455]
+script = ExtResource("7_l8t4p")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=77821743 node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("5_8cuti")
-max_health = 300.0
+max_health = 3000.0
 collision_shape = NodePath("../CollisionShape2D")
 metadata/_custom_type_script = "uid://slyidvu0guoq"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=796149663]
+libraries/ = SubResource("AnimationLibrary_jru1c")
+
+[node name="RandomPositionTimer" type="Timer" parent="." unique_id=1954927786]
+wait_time = 8.0
+
+[node name="RangedAttackCheck" type="Timer" parent="." unique_id=356300194]
+wait_time = 3.0
+autostart = true
+
+[node name="BossRollDetector" type="Area2D" parent="." unique_id=1916231717]
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="BossRollDetector" unique_id=1607246870]
+shape = SubResource("CircleShape2D_l8t4p")
+
+[connection signal="timeout" from="RandomPositionTimer" to="StateMachine/DetectPlayer" method="_on_random_position_timer_timeout"]
+[connection signal="timeout" from="RangedAttackCheck" to="StateMachine/DetectPlayer" method="_on_ranged_attack_check_timeout"]
+[connection signal="body_entered" from="BossRollDetector" to="." method="_on_boss_roll_detector_body_entered"]
+[connection signal="body_exited" from="BossRollDetector" to="." method="_on_boss_roll_detector_body_exited"]

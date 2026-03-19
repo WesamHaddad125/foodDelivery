@@ -1,4 +1,5 @@
 extends Node
+class_name DungeonGenerator
 
 @export var rows : int = 9
 @export var columns : int = 8
@@ -8,6 +9,8 @@ extends Node
 @onready var room_cameras: TileMapLayer = $"../RoomCameras"
 @onready var walls: TileMapLayer = $"../YSorted/Walls"
 @onready var walking_player: WalkingPlayer = $"../YSorted/WalkingPlayer"
+
+@export var lockedRoomPatterns : TileSet
 
 @export var maxRooms := 8
 var roomsCreated := 0
@@ -23,6 +26,9 @@ var rowDir : Array[int] = [-1, 0, 1, 0]
 var colDir : Array[int] = [0, -1, 0, 1]
 
 var doorTile : Vector2i = Vector2i(3,5)
+
+var endRoomOptions : Array[Vector2]
+var lockedRoom : Vector2i
 
 func _ready() -> void:
 	for row in rows:
@@ -45,6 +51,9 @@ func _ready() -> void:
 			var count = countNeighbors(row, col, true)
 			if count >= 3 && finalMap[row][col] == 1:
 				finalMap[row][col] = 2
+				endRoomOptions.append(Vector2(col, row))
+	if !endRoomOptions.is_empty():
+		lockedRoom = endRoomOptions.pick_random()			
 	
 	for row in rows:
 		for col in finalMap[row].size():
@@ -53,19 +62,28 @@ func _ready() -> void:
 				createCamera(spawnPos)
 				
 				var wallPattern : TileMapPattern = floor.tile_set.get_pattern(0)
+				var lockedRoomWallPattern : TileMapPattern = lockedRoomPatterns.get_pattern(0)
 				var entryRoomPattern : TileMapPattern = floor.tile_set.get_pattern(randi_range(5,6))
 				var terrainDifficultyPattern : TileMapPattern = floor.tile_set.get_pattern(randi_range(1,4))
 				
+
 				walls.set_pattern(spawnPos, wallPattern)
 				floor.set_pattern(spawnPos, entryRoomPattern)
-				house_objects.set_pattern(Vector2i(spawnPos.x + 1, spawnPos.y + 4), terrainDifficultyPattern)
+				if col == lockedRoom.x && row == lockedRoom.y:
+					walls.set_pattern(spawnPos, lockedRoomWallPattern)
+					house_objects.set_cell(Vector2i(spawnPos.x + 8, spawnPos.y + 10), 3, Vector2i(0,0), 8)
+				else:
+					house_objects.set_pattern(Vector2i(spawnPos.x + 1, spawnPos.y + 4), terrainDifficultyPattern)
 				createDoors(col, row, spawnPos.x, spawnPos.y)
+					
 				if finalMap[row][col] == 3:
 					var playerSpawn = floor.map_to_local(Vector2i(spawnPos.x + 10, spawnPos.y + 25))
 					walking_player.global_position = Vector2(playerSpawn.x, playerSpawn.y)
+	
+	
 	#debug generation
-	#for row in rows:
-		#print(finalMap[row])
+	for row in rows:
+		print(finalMap[row])
 
 func generate_dungeon() -> void:
 	roomsCreated = 0
@@ -132,6 +150,9 @@ func createDoors(rowIdx, colIdx, x, y) -> void:
 			doorPos.x += door
 			floor.set_cell(doorPos, 2, doorTile, 2)
 			walls.erase_cell(doorPos)
+	if colIdx == lockedRoom.y && rowIdx == lockedRoom.x:
+		# lock the room
+		return
 	for i in range(4):
 		var adjX : int = colIdx + rowDir[i]
 		var adjY : int = rowIdx + colDir[i]

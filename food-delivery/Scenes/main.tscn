@@ -5,6 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://d0116fbhqkuch" path="res://Scenes/player.tscn" id="2_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://din52vcllobae" path="res://Scenes/Environment.tscn" id="3_8gbba"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_jjvhh"]
+radius = 41.01219
+
 [node name="GameController" type="Node2D" unique_id=1885331234]
 script = ExtResource("1_jjvhh")
 
@@ -22,9 +25,17 @@ tile_map_data = PackedByteArray("AAADAPH/AgAIAAEAAAACAOD/AgAIAAEAAAACANn/AgAIAAE
 [node name="Player" parent="y-sort-objects" unique_id=2129012275 instance=ExtResource("2_bo1nx")]
 position = Vector2(430, -140)
 
-[connection signal="body_entered" from="y-sort-objects/Environment/@Area2D@167844" to="y-sort-objects/Environment/@Area2D@167844" method="_on_body_entered"]
-[connection signal="body_exited" from="y-sort-objects/Environment/@Area2D@167844" to="y-sort-objects/Environment/@Area2D@167844" method="_on_body_exited"]
-[connection signal="body_entered" from="y-sort-objects/Environment/@Area2D@167845" to="y-sort-objects/Environment/@Area2D@167845" method="_on_body_entered"]
-[connection signal="body_exited" from="y-sort-objects/Environment/@Area2D@167845" to="y-sort-objects/Environment/@Area2D@167845" method="_on_body_exited"]
-[connection signal="body_entered" from="y-sort-objects/Environment/@Area2D@167846" to="y-sort-objects/Environment/@Area2D@167846" method="_on_body_entered"]
-[connection signal="body_exited" from="y-sort-objects/Environment/@Area2D@167846" to="y-sort-objects/Environment/@Area2D@167846" method="_on_body_exited"]
+[node name="BossEntrance" type="Area2D" parent="." unique_id=395832680]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BossEntrance" unique_id=913906203]
+position = Vector2(570, -40)
+shape = SubResource("CircleShape2D_jjvhh")
+
+[connection signal="timeout" from="GameTimeTimer" to="." method="_on_game_time_timer_timeout"]
+[connection signal="body_entered" from="y-sort-objects/Environment/HouseEntrance" to="y-sort-objects/Environment/HouseEntrance" method="_on_body_entered"]
+[connection signal="body_exited" from="y-sort-objects/Environment/HouseEntrance" to="y-sort-objects/Environment/HouseEntrance" method="_on_body_exited"]
+[connection signal="body_entered" from="y-sort-objects/Environment/@Area2D@174828" to="y-sort-objects/Environment/@Area2D@174828" method="_on_body_entered"]
+[connection signal="body_exited" from="y-sort-objects/Environment/@Area2D@174828" to="y-sort-objects/Environment/@Area2D@174828" method="_on_body_exited"]
+[connection signal="body_entered" from="y-sort-objects/Environment/@Area2D@174829" to="y-sort-objects/Environment/@Area2D@174829" method="_on_body_entered"]
+[connection signal="body_exited" from="y-sort-objects/Environment/@Area2D@174829" to="y-sort-objects/Environment/@Area2D@174829" method="_on_body_exited"]
+[connection signal="body_entered" from="BossEntrance" to="." method="_on_boss_entrance_body_entered"]

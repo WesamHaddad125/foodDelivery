@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://buo4ge0jtapc8" path="res://Scenes/Upgrades/upgradeScene.tscn" id="6_lytc2"]
 [ext_resource type="PackedScene" uid="uid://cjlkfjgynqdu" path="res://Scenes/house_exit.tscn" id="7_iymgf"]
 [ext_resource type="PackedScene" uid="uid://dx5v286ppjtqv" path="res://Scenes/Enemies/ranged_enemy.tscn" id="8_iymgf"]
+[ext_resource type="PackedScene" uid="uid://cn38xciccle74" path="res://Scenes/DungeonGeneration/item_pedestal.tscn" id="9_wllqr"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_nsqyf"]
 tile_data = PackedInt32Array(0, 917506, 3, 65536, 262146, 1, 131072, 262146, 1, 196608, 262146, 1, 262144, 262146, 1, 327680, 262146, 1, 393216, 262146, 1, 458752, 262146, 1, 524288, 262146, 1, 589824, 262146, 1, 655360, 262146, 1, 720896, 262146, 1, 786432, 262146, 1, 851968, 262146, 1, 917504, 262146, 1, 983040, 262146, 1, 1048576, 262146, 1, 1114112, 262146, 1, 1179648, 262146, 1, 1245184, 262146, 1, 1310720, 262146, 1, 1376256, 262146, 1, 1441792, 262146, 1, 1507328, 262146, 1, 1572864, 262146, 1, 1638400, 262146, 1, 1703936, 262146, 1, 1769472, 262146, 1, 1835008, 851970, 3, 1, 327682, 3, 1835009, 262146, 3, 2, 327682, 3, 1835010, 262146, 3, 3, 327682, 3, 1835011, 262146, 3, 4, 327682, 3, 1835012, 262146, 3, 5, 327682, 3, 1835013, 262146, 3, 6, 327682, 3, 1835014, 262146, 3, 7, 327682, 3, 1835015, 262146, 3, 8, 327682, 3, 1835016, 262146, 3, 9, 327682, 3, 1835017, 262146, 3, 10, 327682, 3, 1835018, 262146, 3, 11, 327682, 3, 1835019, 262146, 3, 12, 327682, 3, 1835020, 262146, 3, 13, 327682, 3, 1835021, 262146, 3, 14, 327682, 3, 1835022, 262146, 3, 15, 327682, 3, 1835023, 262146, 3, 16, 327682, 3, 1835024, 262146, 3, 17, 327682, 3, 1835025, 262146, 3, 18, 327682, 3, 1835026, 262146, 3, 19, 327682, 3, 1835027, 262146, 3, 20, 851970, 5, 65556, 327682, 1, 131092, 327682, 1, 196628, 327682, 1, 262164, 327682, 1, 327700, 327682, 1, 393236, 327682, 1, 458772, 327682, 1, 524308, 327682, 1, 589844, 327682, 1, 655380, 327682, 1, 720916, 327682, 1, 786452, 327682, 1, 851988, 327682, 1, 917524, 327682, 1, 983060, 327682, 1, 1048596, 327682, 1, 1114132, 327682, 1, 1179668, 327682, 1, 1245204, 327682, 1, 1310740, 327682, 1, 1376276, 327682, 1, 1441812, 327682, 1, 1507348, 327682, 1, 1572884, 327682, 1, 1638420, 327682, 1, 1703956, 327682, 1, 1769492, 327682, 1, 1835028, 917506, 5)
@@ -117,21 +118,41 @@ texture_region_size = Vector2i(32, 32)
 14:5/0/texture_origin = Vector2i(0, 16)
 14:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-1.2590103, 1.7985878, -10.178518, -2.9107409, 0, -8, 9.17131, -3.4143448)
 4:3/size_in_atlas = Vector2i(1, 2)
+4:3/next_alternative_id = 3
 4:3/0 = 0
 4:3/0/texture_origin = Vector2i(0, 16)
 4:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.689333, -2.1553335, 4.8546996, 5.57265, 11.401557, 2.2992215, -4.42304, -5.78848)
+4:3/2 = 2
+4:3/2/texture_origin = Vector2i(0, 16)
+4:3/2/modulate = Color(0, 0.52175367, 0.52308005, 1)
+4:3/2/physics_layer_0/polygon_0/points = PackedVector2Array(5.2863603, 5.35682, 11.185726, 2.407137, -4.9266443, -5.536678, -11.257672, -2.3711638)
 5:3/size_in_atlas = Vector2i(1, 2)
+5:3/next_alternative_id = 3
 5:3/0 = 0
 5:3/0/texture_origin = Vector2i(0, 16)
 5:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.689333, -2.1553335, 4.8546996, 5.57265, 11.401557, 2.2992215, -4.42304, -5.78848)
+5:3/2 = 2
+5:3/2/texture_origin = Vector2i(0, 16)
+5:3/2/modulate = Color(0, 0.52175367, 0.52308005, 1)
+5:3/2/physics_layer_0/polygon_0/points = PackedVector2Array(4.6388693, 5.6805654, -10.82601, -2.5869951, -3.4158301, -6.2920847, 11.5454445, 2.2272778)
 5:1/size_in_atlas = Vector2i(1, 2)
+5:1/next_alternative_id = 3
 5:1/0 = 0
 5:1/0/texture_origin = Vector2i(0, 16)
 5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.905162, 2.047419, -5.142474, 5.428763, 11.689332, -2.155334, 4.8547, -5.57265)
+5:1/2 = 2
+5:1/2/texture_origin = Vector2i(0, 16)
+5:1/2/modulate = Color(0, 0.52175367, 0.52308005, 1)
+5:1/2/physics_layer_0/polygon_0/points = PackedVector2Array(-11.83322, 2.08339, -5.7180233, 5.1409883, 10.61018, -2.69491, 3.7036037, -6.148198)
 4:1/size_in_atlas = Vector2i(1, 2)
+4:1/next_alternative_id = 3
 4:1/0 = 0
 4:1/0/texture_origin = Vector2i(0, 16)
 4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.905162, 2.047419, -5.142474, 5.428763, 11.689332, -2.155334, 4.8547, -5.57265)
+4:1/2 = 2
+4:1/2/texture_origin = Vector2i(0, 16)
+4:1/2/modulate = Color(0, 0.52175367, 0.52308005, 1)
+4:1/2/physics_layer_0/polygon_0/points = PackedVector2Array(-5.5021915, 5.248904, -11.833219, 2.0833907, 4.279154, -5.860423, 11.257671, -2.371164)
 8:1/size_in_atlas = Vector2i(4, 6)
 8:1/0 = 0
 8:1/0/texture_origin = Vector2i(-2, 74)
@@ -174,6 +195,7 @@ scenes/3/scene = ExtResource("5_1cd1b")
 scenes/4/scene = ExtResource("6_lytc2")
 scenes/5/scene = ExtResource("7_iymgf")
 scenes/6/scene = ExtResource("8_iymgf")
+scenes/8/scene = ExtResource("9_wllqr")
 
 [resource]
 tile_shape = 1
